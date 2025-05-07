@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// EcoCoin: Independent AI-Compatible Blockchain Coin
+// Orbi-Mint: Independent AI-Compatible Blockchain Coin
 // Language: C++ (interacts with Rust and ERC-20 via bridges)
 
 #include <iostream>
