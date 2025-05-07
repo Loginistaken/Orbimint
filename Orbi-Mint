@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Orbi-Mint: Independent AI-Compatible Blockchain Coin
+// Orbimint: Eco-Friendly, AI-Compatible Blockchain Coin
 // Language: C++ (interacts with Rust and ERC-20 via bridges)
 
 #include <iostream>
@@ -10,15 +10,19 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
+#include <vector>
+#include <zlib.h> // For compression placeholder (future LZ4/zstd)
 
 // ------------------------------
 // Blockchain Config
 // ------------------------------
 constexpr uint8_t DECIMALS = 7;
 constexpr uint64_t INITIAL_SUPPLY = 700000000000000000; // 7 BILLION with 7 decimals
-std::string COIN_NAME = "Orbi-Mint";
-std::string COIN_SYMBOL = "ORBIM";
+std::string COIN_NAME = "Orbimint";
+std::string COIN_SYMBOL = "ORBI";
 constexpr uint64_t BLOCK_INTERVAL_MS = 3000; // 3 seconds per block
+
+bool lightNodeMode = false; // Flag for ultralight mode
 
 // ------------------------------
 // Thread Safety
@@ -26,7 +30,7 @@ constexpr uint64_t BLOCK_INTERVAL_MS = 3000; // 3 seconds per block
 std::mutex ledger_mutex;
 
 // ------------------------------
-// Account and Ledger Management
+// Trie-Like Ledger Management (Simplified Trie Placeholder)
 // ------------------------------
 class Account {
 public:
@@ -34,6 +38,7 @@ public:
 };
 
 std::map<std::string, Account> ledger;
+std::vector<std::string> activeAccounts;
 
 // ------------------------------
 // Smart Contract Scripting Layer
@@ -65,12 +70,14 @@ void transfer(const std::string& from, const std::string& to, uint64_t amount) {
     }
     ledger[from].balance -= amount;
     ledger[to].balance += amount;
+    activeAccounts.push_back(to);
     std::cout << "Transferred " << amount << " tokens from " << from << " to " << to << std::endl;
 }
 
 void mint(const std::string& to, uint64_t amount) {
     std::lock_guard<std::mutex> lock(ledger_mutex);
     ledger[to].balance += amount;
+    activeAccounts.push_back(to);
     std::cout << "Minted " << amount << " tokens to " << to << std::endl;
 }
 
@@ -87,17 +94,46 @@ void initialize() {
 // ------------------------------
 void showBalance(const std::string& user) {
     std::lock_guard<std::mutex> lock(ledger_mutex);
-    double formatted = static_cast<double>(ledger[user].balance) / std::pow(6, DECIMALS);
+    double formatted = static_cast<double>(ledger[user].balance) / std::pow(10, DECIMALS);
     std::cout << "Balance of " << user << ": " << formatted << " " << COIN_SYMBOL << std::endl;
+}
+
+// ------------------------------
+// Block Compression (Simulation)
+// ------------------------------
+void compressBlockData(const std::string& blockData) {
+    std::cout << "[Compression] Block data compressed for light nodes." << std::endl;
+    // Placeholder logic; integrate zstd or LZ4 in production
+}
+
+// ------------------------------
+// Auto Garbage Collection for Inactive Accounts
+// ------------------------------
+void pruneInactiveAccounts() {
+    std::lock_guard<std::mutex> lock(ledger_mutex);
+    for (auto it = ledger.begin(); it != ledger.end(); ) {
+        if (it->second.balance == 0) {
+            it = ledger.erase(it);
+        } else {
+            ++it;
+        }
+    }
+    std::cout << "[Prune] Inactive accounts pruned from memory." << std::endl;
 }
 
 // ------------------------------
 // Simulated Block Loop
 // ------------------------------
 void startBlockchainLoop() {
+    uint64_t blockHeight = 0;
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(BLOCK_INTERVAL_MS));
-        std::cout << "[Block] New block minted." << std::endl;
+        std::cout << "[Block " << blockHeight++ << "] New block minted." << std::endl;
+
+        if (lightNodeMode) {
+            compressBlockData("...mock block data...");
+        }
+        pruneInactiveAccounts();
     }
 }
 
@@ -108,12 +144,12 @@ int main() {
     initialize();
     showBalance("GENESIS_ADDRESS");
 
-    transfer("GENESIS_ADDRESS", "Alice", 1234567); // Transfer 12.34567 ECO
+    transfer("GENESIS_ADDRESS", "Alice", 1234567); // Transfer 12.34567 ORBI
     showBalance("Alice");
     showBalance("GENESIS_ADDRESS");
 
     BurnContract burner;
-    burner.execute("Alice", "", 1000000); // Burn 10.00000 ECO from Alice
+    burner.execute("Alice", "", 1000000); // Burn 10.00000 ORBI from Alice
     showBalance("Alice");
 
     // Launch simulated block loop in separate thread
@@ -127,16 +163,9 @@ int main() {
 
 /*
 Notes:
-- Uses fixed 7 decimals (eco-friendly precision)
-- Compiled, not interpreted (runs natively)
-- Deterministic 3s block time for consensus
-- Thread-safe with mutex for shared data
-- Secure types (e.g., uint64_t), smart contract class
-- Compatible bridges:
-  > Rust for AI + EVM/ERC-20 (off-chain trigger logic)
-  > Go for Solana/modern validator network
-  > Web bridge for Android/Web3 interface
-- Targeting 2003+ Android and embedded low-RAM (under 20MB/node)
+- Eco-optimized: 7 decimals, low gas logic, light node mode, block compression.
+- Smart contract-ready with bridge compatibility (Rust, Web3, Go).
+- Secure multithreading with mutex for ledger.
+- Automatically prunes unused accounts to keep ledger lean.
+- Modular for integrating AI gas prediction or plugin triggers externally.
 */
-Futura-nummus, Could digital currency become dependency?Would marketers munipulate the guidlines? FUTURA is trying to incoraperate ideas to integrate code with fifth generation AI updates for future compatibility (7 decimal) coin that's low gas and eco-friendly       
-
