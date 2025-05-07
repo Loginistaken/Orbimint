@@ -16,8 +16,8 @@
 // ------------------------------
 constexpr uint8_t DECIMALS = 7;
 constexpr uint64_t INITIAL_SUPPLY = 700000000000000000; // 7 BILLION with 7 decimals
-std::string COIN_NAME = "Futura-Nummus";
-std::string COIN_SYMBOL = "FUTURA";
+std::string COIN_NAME = "Orbi-Mint";
+std::string COIN_SYMBOL = "ORBIM";
 constexpr uint64_t BLOCK_INTERVAL_MS = 3000; // 3 seconds per block
 
 // ------------------------------
