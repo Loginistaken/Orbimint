@@ -33,5 +33,6 @@ Key Features:
     It connects to Ethereum, Solana, and various Layer 2 solutions, providing a versatile platform for 
     developers and users alike.
 
-    Governance and Community Involvement: Orbimint is governed by a decentralized autonomous organization (DAO), where community
-    members and token holders can propose and vote on protocol upgrades, ensuring transparency and inclusivity in the network’s evolution.
+    Governance and Community Involvement: Orbimint is governed by a decentralized autonomous organization (DAO),
+    where community members and token holders can propose and vote on protocol upgrades, ensuring transparency 
+    and inclusivity in the network’s evolution.
