@@ -12,6 +12,7 @@
 #include <mutex>
 #include <vector>
 #include <zlib.h> // For compression placeholder (future LZ4/zstd)
+#include <cpr/cpr.h> // Lightweight C++ HTTP client
 
 // ------------------------------
 // Blockchain Config
@@ -35,10 +36,29 @@ std::mutex ledger_mutex;
 class Account {
 public:
     uint64_t balance = 0;
+    std::string publicKeyHash = ""; // Supports both SHA-3 64-char or Ethereum 40-char addresses
+    std::string addressType = "";  // Can be "sha3-64" or "eth-42"
 };
 
 std::map<std::string, Account> ledger;
 std::vector<std::string> activeAccounts;
+
+// ------------------------------
+// Address Validation and Normalization
+// ------------------------------
+std::string normalizeAddress(const std::string& addr) {
+    // Ensure the address starts with 0x and is the correct length (42 or 64 chars)
+    if (addr.substr(0, 2) != "0x" || 
+        (addr.length() != 42 && addr.length() != 66)) {
+        throw std::invalid_argument("Invalid address format.");
+    }
+
+    // Convert the address to lowercase for uniformity
+    std::string lowerAddr = addr;
+    std::transform(lowerAddr.begin(), lowerAddr.end(), lowerAddr.begin(), ::tolower);
+    
+    return lowerAddr;
+}
 
 // ------------------------------
 // Smart Contract Scripting Layer
@@ -76,9 +96,15 @@ void transfer(const std::string& from, const std::string& to, uint64_t amount) {
     std::cout << "Transferred " << amount << " tokens from " << from << " to " << to << std::endl;
 }
 
-void mint(const std::string& to, uint64_t amount) {
+void mint(const std::string& to, uint64_t amount, const std::string& sha3Hex = "") {
     std::lock_guard<std::mutex> lock(ledger_mutex);
     ledger[to].balance += amount;
+    
+    if (!sha3Hex.empty()) {
+        ledger[to].publicKeyHash = normalizeAddress(sha3Hex); // Normalize the address
+        ledger[to].addressType = (sha3Hex.length() == 66) ? "sha3-64" : "eth-42"; // Set address type
+    }
+
     activeAccounts.push_back(to);
     std::cout << "Minted " << amount << " tokens to " << to << std::endl;
 }
@@ -88,7 +114,8 @@ void mint(const std::string& to, uint64_t amount) {
 // ------------------------------
 void initialize() {
     std::string genesisAddress = "GENESIS_ADDRESS";
-    mint(genesisAddress, INITIAL_SUPPLY);
+    std::string sha3HexExample = "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f";
+    mint(genesisAddress, INITIAL_SUPPLY, sha3HexExample);
 }
 
 // ------------------------------
@@ -98,6 +125,18 @@ void showBalance(const std::string& user) {
     std::lock_guard<std::mutex> lock(ledger_mutex);
     double formatted = static_cast<double>(ledger[user].balance) / std::pow(10, DECIMALS);
     std::cout << "Balance of " << user << ": " << formatted << " " << COIN_SYMBOL << std::endl;
+    if (!ledger[user].publicKeyHash.empty()) {
+        std::cout << "Public Key Hash: " << ledger[user].publicKeyHash << std::endl;
+    }
+}
+
+// ------------------------------
+// External Wallet Integration (Tatum API)
+// ------------------------------
+std::string getWalletAddressFromTatum() {
+    auto response = cpr::Post(cpr::Url{"https://api.tatum.io/v3/ethereum/wallet"},
+                              cpr::Header{{"x-api-key", "YOUR_TATUM_KEY"}});
+    return response.text;
 }
 
 // ------------------------------
@@ -146,13 +185,16 @@ int main() {
     initialize();
     showBalance("GENESIS_ADDRESS");
 
-    transfer("GENESIS_ADDRESS", "Alice", 1234567); // Transfer 12.34567 ORBI
-    showBalance("Alice");
+    transfer("GENESIS_ADDRESS", "Jasmine", 1234567); // Transfer 12.34567 ORBI
+    showBalance("Jasmine");
     showBalance("GENESIS_ADDRESS");
 
     BurnContract burner;
-    burner.execute("Alice", "", 1000000); // Burn 10.00000 ORBI from Alice
-    showBalance("Alice");
+    burner.execute("Jasmine", "", 1000000); // Burn 10.00000 ORBI from Jasmine
+    showBalance("Jasmine");
+
+    std::string tatumWallet = getWalletAddressFromTatum();
+    std::cout << "[Tatum] New wallet JSON: " << tatumWallet << std::endl;
 
     std::thread blockThread(startBlockchainLoop);
     blockThread.detach();
@@ -165,7 +207,9 @@ int main() {
 Notes:
 - Eco-optimized: 7 decimals, low gas logic, light node mode, block compression.
 - Smart contract-ready with bridge compatibility (Rust, Web3, Go).
+- SHA-3 0x hash supported, with internal 64-char & 42-char address interop.
 - Secure multithreading with mutex for ledger.
 - Automatically prunes unused accounts to keep ledger lean.
 - Modular for integrating AI gas prediction or plugin triggers externally.
 */
+
