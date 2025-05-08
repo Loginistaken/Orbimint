@@ -121,3 +121,8 @@ Orbimint anticipates next-gen needs:
     Governance and Community Involvement: Orbimint is governed by a decentralized autonomous organization (DAO),
     where community members and token holders can propose and vote on protocol upgrades, ensuring transparency 
     and inclusivity in the network’s evolution.
+    
+This project integrates suggestions from:
+
+• OpenAI ChatGPT
+• Community-driven open-source tools
