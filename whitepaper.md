@@ -1,4 +1,4 @@
-Orbimint: The Next-Generation Eco-Friendly Blockchain for AI and Web3
+The Next-Generation Eco-Friendly Blockchain for AI and Web3
 
 Orbimint is an advanced blockchain designed to meet the demands of the future by integrating eco-friendly principles, low-gas fees, 
 and seamless compatibility with next-generation AI technologies. As blockchain and AI continue to intersect, Orbimint provides a scalable, 
