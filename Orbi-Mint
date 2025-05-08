@@ -202,7 +202,10 @@ int main() {
     std::this_thread::sleep_for(std::chrono::seconds(10));
     return 0;
 }
+This project integrates suggestions from:
 
+• OpenAI ChatGPT
+• Community-driven open-source tools
 /*
 Notes:
 - Eco-optimized: 7 decimals, low gas logic, light node mode, block compression.
