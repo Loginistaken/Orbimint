@@ -88,6 +88,7 @@ Recommended Additions:
 
 Cross-Chain Native, Future-Ready by Design
 
+Orbimint supports future adoption of cross-chain messaging standards like IBC and Chainlink CCIP, ensuring secure and verifiable communication across heterogeneous blockchains. Cross-chain tokens are auto-wrapped on import/export, maintaining integrity during bridge interactions.
 Orbimint is not siloed. Its C++ core is deliberately crafted with interoperability hooks 
 and low-level compatibility bridges in mind. As blockchain ecosystems mature and fragment
 across L1s, L2s, and sidechains, Orbimint embraces multi-chain adaptability without sacrificing speed or security.
