@@ -169,3 +169,7 @@ Notes:
 - Automatically prunes unused accounts to keep ledger lean.
 - Modular for integrating AI gas prediction or plugin triggers externally.
 */
+This project integrates suggestions from:
+
+• OpenAI ChatGPT
+• Community-driven open-source tools
