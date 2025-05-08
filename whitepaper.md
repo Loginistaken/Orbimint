@@ -24,7 +24,7 @@ rapidly moving away from physical money. Its foundational architecture is rooted
 and intelligent scalability.
 
 Precision-Scaled Supply:
-At its core, Orbimint uses 7 decimal precision (e7) rather than the typical 18-decimal format of most Ethereum-based tokens. 
+At its core, Orbimint uses 7 decimal precision (e7) rather than the larger deciaml holding places force perscion value. 
 This design is more than symbolic—it mathematically aligns with Orbimint’s total supply of 7,000,000,000 tokens (expressed in 
 code as 700000000000000000 to preserve micro-level accounting accuracy). This decision reduces computational overhead and 
 simplifies gas estimation across millions of transactions, offering a cleaner, more energy-efficient footprint over time. 
