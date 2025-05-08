@@ -25,7 +25,8 @@ and intelligent scalability.
 Precision-Scaled Supply:
 At its core, Orbimint uses 7 decimal precision (e7) rather than the larger decimal holding places for precise measurments of
 value although smaller memes use larger decimals to help point out the fractions of a 
-coin, we implemnet less coin in intial minting and hope for larger than meme scale. 
+coin, we implemnet less coin in intial minting and antictipate larger than average meme scale value. After all despite being 
+compatible with other blocks this coin has its own block-chian, it's built to run fast and in syntax formation in CPP.
 This design is more than symbolic—it mathematically aligns with Orbimint’s total supply of 7,000,000,000 tokens (expressed in 
 code as 700000000000000000 to preserve micro-level accounting accuracy). This decision reduces computational overhead and 
 simplifies gas estimation across millions of transactions, offering a cleaner, more energy-efficient footprint over time. 
