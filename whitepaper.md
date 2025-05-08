@@ -6,8 +6,7 @@ decentralized, and adaptable solution that can evolve in tandem with both fields
 allows for easy upgrades and ensures that it can integrate new innovations without losing its core identity.
 Designed to endure and thrive across evolving digital environments. By combining modular blockchain architecture
 with intelligent automation,Orbimint ensures its protocol remains flexible, efficient, and aligned with emerging technologies.
-Its infrastructure supports growth not only in terms of scale but also in relevance, continuously adapting to meet new demands across i
-ndustries, platforms, and ecosystems.
+Its infrastructure supports growth not only in terms of scale but also in relevance, continuously adapting to meet new demands across                              industries, platforms, and ecosystems.
 
 Key Features:
 
