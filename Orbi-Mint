@@ -55,6 +55,8 @@ public:
         if (ledger[from].balance >= value) {
             ledger[from].balance -= value;
             std::cout << "Burned " << value << " tokens from " << from << std::endl;
+        } else {
+            std::cerr << "[BurnContract] Insufficient balance for burn from " << from << std::endl;
         }
     }
 };
@@ -65,7 +67,7 @@ public:
 void transfer(const std::string& from, const std::string& to, uint64_t amount) {
     std::lock_guard<std::mutex> lock(ledger_mutex);
     if (ledger[from].balance < amount) {
-        std::cerr << "Insufficient balance for transfer." << std::endl;
+        std::cerr << "[Transfer] Insufficient balance for transfer from " << from << std::endl;
         return;
     }
     ledger[from].balance -= amount;
@@ -152,11 +154,9 @@ int main() {
     burner.execute("Alice", "", 1000000); // Burn 10.00000 ORBI from Alice
     showBalance("Alice");
 
-    // Launch simulated block loop in separate thread
     std::thread blockThread(startBlockchainLoop);
     blockThread.detach();
 
-    // Keep main thread alive
     std::this_thread::sleep_for(std::chrono::seconds(10));
     return 0;
 }
@@ -169,7 +169,3 @@ Notes:
 - Automatically prunes unused accounts to keep ledger lean.
 - Modular for integrating AI gas prediction or plugin triggers externally.
 */
-This project integrates suggestions from:
-
-• OpenAI ChatGPT
-• Community-driven open-source tools
