@@ -49,7 +49,7 @@ std::vector<std::string> activeAccounts;
 std::string normalizeAddress(const std::string& addr) {
     // Ensure the address starts with 0x and is the correct length (42 or 64 chars)
     if (addr.substr(0, 2) != "0x" || 
-        (addr.length() != 42 && addr.length() != 66)) {
+        (addr.length() != 42 && addr.length() != 64)) {
         throw std::invalid_argument("Invalid address format.");
     }
 
