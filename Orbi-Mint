@@ -102,7 +102,7 @@ void mint(const std::string& to, uint64_t amount, const std::string& sha3Hex = "
     
     if (!sha3Hex.empty()) {
         ledger[to].publicKeyHash = normalizeAddress(sha3Hex); // Normalize the address
-        ledger[to].addressType = (sha3Hex.length() == 66) ? "sha3-64" : "eth-42"; // Set address type
+        ledger[to].addressType = (sha3Hex.length() == 64) ? "sha3-64" : "eth-42"; // Set address type
     }
 
     activeAccounts.push_back(to);
