@@ -129,6 +129,54 @@ void showBalance(const std::string& user) {
         std::cout << "Public Key Hash: " << ledger[user].publicKeyHash << std::endl;
     }
 }
+// ------------------------------
+// Go-Compatible Ethereum Interop Bridge
+// ------------------------------
+#include <sstream>
+
+class EthereumBridge {
+public:
+    std::string ethNodeURL = "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID";
+    std::string ethContractAddress = "0x1234567890abcdef1234567890abcdef12345678";
+
+    std::string buildEthTransactionJSON(const std::string& from, const std::string& to, uint64_t value) {
+        std::ostringstream oss;
+        oss << R"({
+            "jsonrpc": "2.0",
+            "method": "eth_sendTransaction",
+            "params": [{
+                "from": ")" << from << R"(",
+                "to": ")" << to << R"(",
+                "value": "0x)" << std::hex << value << R"(",
+                "gas": "0x5208",
+                "gasPrice": "0x3B9ACA00"
+            }],
+            "id": 1
+        })";
+        return oss.str();
+    }
+
+    std::string sendTransactionToEthereum(const std::string& jsonPayload) {
+        auto response = cpr::Post(
+            cpr::Url{ethNodeURL},
+            cpr::Header{{"Content-Type", "application/json"}},
+            cpr::Body{jsonPayload}
+        );
+        return response.text;
+    }
+
+    void transferToEth(const std::string& from, const std::string& ethRecipient, uint64_t amountInWei) {
+        std::string txJSON = buildEthTransactionJSON(from, ethRecipient, amountInWei);
+        std::string result = sendTransactionToEthereum(txJSON);
+        std::cout << "[EthereumBridge] Sent transaction to Ethereum: " << result << std::endl;
+    }
+};
+
+
+
+
+
+
 
 // ------------------------------
 // External Wallet Integration (Tatum API)
