@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Orbimint: Eco-Friendly, AI-Compatible Blockchain Coin
 // Language: C++ (interacts with Rust and ERC-20 via bridges)
-
 #include <iostream>
+int main() {
 #include <map>
 #include <string>
 #include <cstdint>
@@ -13,7 +13,66 @@
 #include <vector>
 #include <zlib.h> // For compression placeholder (future LZ4/zstd)
 #include <cpr/cpr.h> // Lightweight C++ HTTP client
+#include <chrono>
+#include <cryptopp/rsa.h>
+#include <cryptopp/osrng.h>
+#include <cryptopp/pssr.h>
+#include <cryptopp/hex.h>
+#include <cryptopp/files.h>
+#include <cryptopp/filters.h>
 
+// Sign a transaction using RSA private key
+std::string signTransaction(const std::string& data, const CryptoPP::RSA::PrivateKey& privateKey) {
+    CryptoPP::AutoSeededRandomPool rng;
+    std::string signature;
+
+    CryptoPP::RSASSA_PKCS1v15_SHA_Signer signer(privateKey);
+
+    CryptoPP::StringSource ss(data, true,
+        new CryptoPP::SignerFilter(rng, signer,
+            new CryptoPP::StringSink(signature)
+        )
+    );
+
+    return signature;
+}
+
+// Verify a transaction using RSA public key
+bool verifyTransaction(const std::string& data, const std::string& signature, const CryptoPP::RSA::PublicKey& publicKey) {
+    CryptoPP::RSASSA_PKCS1v15_SHA_Verifier verifier(publicKey);
+    bool result = false;
+
+    CryptoPP::StringSource ss(signature + data, true,
+        new CryptoPP::SignatureVerificationFilter(
+            verifier,
+            new CryptoPP::ArraySink((CryptoPP::byte*)&result, sizeof(result)),
+            CryptoPP::SignatureVerificationFilter::THROW_EXCEPTION | CryptoPP::SignatureVerificationFilter::SIGNATURE_AT_BEGIN
+        )
+    );
+
+    return result;
+}
+
+// Simulate AI block approval logic
+bool approveBlockAI(const std::string& blockData) {
+    std::cout << "[AI] Analyzing block data...\n";
+
+    std::vector<std::string> suspiciousKeywords = {"fraud", "invalid", "error", "malicious"};
+    for (const auto& keyword : suspiciousKeywords) {
+        if (blockData.find(keyword) != std::string::npos) {
+            std::cerr << "[AI] Block rejected due to suspicious keyword: " << keyword << "\n";
+            return false;
+        }
+    }
+
+    if (blockData.length() < 100 || blockData.length() > 10000) {
+        std::cerr << "[AI] Block rejected due to invalid data length.\n";
+        return false;
+    }
+
+    std::cout << "[AI] Block approved.\n";
+    return true;
+}
 // ------------------------------
 // Blockchain Config
 // ------------------------------
