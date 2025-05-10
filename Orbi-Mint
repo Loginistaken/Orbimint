@@ -79,7 +79,7 @@ bool approveBlockAI(const std::string& blockData) {
 constexpr uint8_t DECIMALS = 7;
 constexpr uint64_t INITIAL_SUPPLY = 700000000000000000; // 7 BILLION with 7 decimals
 std::string COIN_NAME = "Orbimint";
-std::string COIN_SYMBOL = "ORBI";
+std::string COIN_SYMBOL = "ORBIM";
 constexpr uint64_t BLOCK_INTERVAL_MS = 3000; // 3 seconds per block
 
 bool lightNodeMode = false; // Flag for ultralight mode
@@ -173,7 +173,7 @@ void mint(const std::string& to, uint64_t amount, const std::string& sha3Hex = "
 // ------------------------------
 void initialize() {
     std::string genesisAddress = "GENESIS_ADDRESS";
-    std::string sha3HexExample = "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f";
+    std::string sha3HexExample = "0x(ueser 64 hexidecimal)";";
     mint(genesisAddress, INITIAL_SUPPLY, sha3HexExample);
 }
 
@@ -183,6 +183,13 @@ void initialize() {
 void showBalance(const std::string& user) {
     std::lock_guard<std::mutex> lock(ledger_mutex);
     double formatted = static_cast<double>(ledger[user].balance) / std::pow(10, DECIMALS);
+// Convert 7-decimal coin to 18-decimal Ethereum-compatible format
+uint64_t sevenDecimalValue = ledger[user].balance; // already stored in 7-decimal format
+std::string paddedValue = std::to_string(sevenDecimalValue) + std::string(11, '0'); // Pad with 11 zeroes to reach 18-decimals
+
+// Optional: convert to a BigInt or string for external Ethereum transmission
+std::cout << "Ethereum-Compatible 18-decimal value: " << paddedValue << std::endl;
+
     std::cout << "Balance of " << user << ": " << formatted << " " << COIN_SYMBOL << std::endl;
     if (!ledger[user].publicKeyHash.empty()) {
         std::cout << "Public Key Hash: " << ledger[user].publicKeyHash << std::endl;
@@ -196,7 +203,7 @@ void showBalance(const std::string& user) {
 class EthereumBridge {
 public:
     std::string ethNodeURL = "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID";
-    std::string ethContractAddress = "0x1234567890abcdef1234567890abcdef12345678";
+    std::string ethContractAddress = "0x(ueser 64 hexidecimal)";
 
     std::string buildEthTransactionJSON(const std::string& from, const std::string& to, uint64_t value) {
         std::ostringstream oss;
