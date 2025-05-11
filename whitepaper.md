@@ -51,9 +51,7 @@ mobile agents, even browser-based clients—to participate without full ledger r
 and bandwidth costs.
 
 Energy-Aware Block Production:
-Blocks are minted every 3 seconds (BLOCK_INTERVAL_MS = 3000), offering faster finality without spamming the network. 
-This strikes a balance between speed and sustainability—an important optimization for
-low-emission operation over millions of future transactions.
+Our blockchain implements an energy-aware, event-driven block production system designed for low-emission, high-efficiency performance. Unlike traditional blockchains that mint blocks at fixed intervals regardless of network activity—leading to unnecessary computation and gas usage—our model only produces new blocks when transactions are pending. A lightweight C++ thread continuously monitors the transaction pool, triggering instant block creation when activity is detected. To maintain chain continuity, a fallback mechanism ensures that a block is minted after a specified idle period (e.g., 10 seconds) even if no transactions occur. This dual-trigger approach balances responsiveness with sustainability, significantly reducing computational overhead and enabling scalable, environmentally conscious transaction processing.
 
 Sustainable Smart Contracts:
 Smart contracts in Orbimint are modular and execute within thread-safe boundaries, avoiding race conditions and 
