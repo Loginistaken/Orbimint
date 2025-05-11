@@ -9,7 +9,7 @@ with intelligent automation, Orbimint ensures its protocol remains flexible, eff
 Orbimint emerges as a sovereign cryptographic asset engineered for long-term adaptability and regulatory resilience.
 As legacy paper-based financial systems recede into obsolescence, a global shift
 toward decentralized assets has accelerated—driven and next generations may increase regulatory scrutiny and environmental 
-consequence smay arrive pertaining to high-gas blockchain operations. Orbimint anticipates this paradigm by architecting its own energy-efficient, 
+consequences may arrive pertaining to high-gas blockchain operations. Orbimint anticipates this paradigm by architecting its own energy-efficient, 
 scalable blockchain infrastructure, eschewing dependency on gas-intensive ecosystems. Its modular architecture not
 only allows seamless integration with emerging AI standards and regulatory protocols but ensures persistent relevance by 
 enabling cross-chain deployment while preserving decentralization at its core. In a future where next-generation AI governs 
