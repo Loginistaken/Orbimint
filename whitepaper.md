@@ -5,7 +5,7 @@ and seamless compatibility with next-generation AI technologies. As blockchain a
 decentralized, co-develop alongside AI and blockchain evolution, ensuring longevity and sustainability. Its modular design
 allows for easy upgrades and ensures that it can integrate new innovations without losing its core identity.
 Designed to endure and thrive across evolving digital environments. By combining modular blockchain architecture
-with intelligent automation, Orbimint ensures its protocol remains flexible, efficient, and aligned with emerging technologies.
+with intelligent automation, Orbimint protocol remains flexible, efficient, and aligned with next generations technologies.
 Orbimint emerges as a sovereign cryptographic asset engineered for long-term adaptability and regulatory resilience.
 As legacy paper-based financial systems recede into obsolescence, a global shift
 toward decentralized assets has accelerated—driven and next generations may increase regulatory scrutiny and environmental 
