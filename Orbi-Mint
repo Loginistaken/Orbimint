@@ -270,20 +270,66 @@ void pruneInactiveAccounts() {
     std::cout << "[Prune] Inactive accounts pruned from memory." << std::endl;
 }
 
-// ------------------------------
-// Simulated Block Loop
-// ------------------------------
-void startBlockchainLoop() {
-    uint64_t blockHeight = 0;
-    while (true) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(BLOCK_INTERVAL_MS));
-        std::cout << "[Block " << blockHeight++ << "] New block minted." << std::endl;
+using namespace std::chrono;
 
-        if (lightNodeMode) {
-            compressBlockData("...mock block data...");
+// Simulated transaction pool
+std::vector<std::string> tx_pool;
+std::mutex tx_mutex;
+
+// Block interval fallback (e.g. 10 seconds)
+const int FALLBACK_INTERVAL_MS = 10000;
+
+void mintBlock() {
+    std::lock_guard<std::mutex> lock(tx_mutex);
+
+    std::cout << "[BLOCK MINTED] Time: " 
+              << duration_cast<seconds>(system_clock::now().time_since_epoch()).count()
+              << ", Tx Count: " << tx_pool.size() << std::endl;
+
+    // Reset the pool
+    tx_pool.clear();
+}
+
+bool hasPendingTxs() {
+    std::lock_guard<std::mutex> lock(tx_mutex);
+    return !tx_pool.empty();
+}
+
+void simulateTxArrival() {
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000)); // Simulate delay
+    std::lock_guard<std::mutex> lock(tx_mutex);
+    tx_pool.push_back("TX_" + std::to_string(rand() % 1000));
+    std::cout << "[TX RECEIVED] Pool Size: " << tx_pool.size() << std::endl;
+}
+
+void startBlockProducer() {
+    auto lastBlockTime = steady_clock::now();
+
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Short polling
+
+        bool txsAvailable = hasPendingTxs();
+        auto now = steady_clock::now();
+        auto timeElapsed = duration_cast<milliseconds>(now - lastBlockTime).count();
+
+        if (txsAvailable || timeElapsed >= FALLBACK_INTERVAL_MS) {
+            mintBlock();
+            lastBlockTime = now;
         }
-        pruneInactiveAccounts();
     }
+}
+
+int main() {
+    // Simulate transactions in background
+    std::thread txThread([]() {
+        while (true) simulateTxArrival();
+    });
+
+    // Start the block producer
+    startBlockProducer();
+
+    txThread.join();
+    return 0;
 }
 
 // ------------------------------
