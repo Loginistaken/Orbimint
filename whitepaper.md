@@ -1,7 +1,7 @@
 Future-Proof, Low gas fee, Multi-Blockchain  Compatible, & next generation AI integration plus Web3 
 
 Orbimint is an advanced blockchain created to meet the demands of the future by integrating, low-gas principles & fees, 
-and seamless compatibility with next-generation AI technologies. As blockchain and AI continue to intersect, Orbimint provides a scalable, 
+along with seamless compatibility and next-generation AI technologies. As blockchain and AI continue to intersect, Orbimint provides a scalable, 
 decentralized, co-develop alongside AI and blockchain evolution, ensuring longevity and sustainability. Its modular design
 allows for easy upgrades and ensures that it can integrate new innovations without losing its core identity.
 Designed to endure and thrive across evolving digital environments. By combining modular blockchain architecture
